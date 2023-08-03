@@ -58,30 +58,34 @@ const showQuestion = (question) => {
 
 
 // Select an answer
+let timerInterval; // Declare the timerInterval outside the function to track the active timer
+
 const selectAnswer = (selectedChoice, correctAnswer) => {
-  clearTimeout(timer); // Stop the timer
+    clearTimeout(timerInterval); // Clear the active timer
 
-  if (selectedChoice === correctAnswer) {
-      score++;
-      feedbackContainer.textContent = "Correct!";
-      feedbackContainer.style.color = "green";
-  } else {
-      feedbackContainer.textContent = "Wrong!";
-      feedbackContainer.style.color = "red";
-  }
+    if (selectedChoice === correctAnswer) {
+        score++;
+        feedbackContainer.textContent = "Correct!";
+        feedbackContainer.style.color = "green";
+    } else {
+        feedbackContainer.textContent = "Wrong!";
+        feedbackContainer.style.color = "red";
+    }
 
-  // Move to the next question after a brief delay
-  setTimeout(() => {
-      currentQuestionIndex++;
-      if (currentQuestionIndex < questions[currentCategory].length) {
-          showQuestion(questions[currentCategory][currentQuestionIndex]);
-          startTimer();
-      } else {
-          // End of the quiz for the selected category
-          showResults();
-      }
-  }, 1000);
+    // Move to the next question after a brief delay
+    setTimeout(() => {
+        currentQuestionIndex++;
+        if (currentQuestionIndex < questions[currentCategory].length) {
+            feedbackContainer.textContent = ""; // Clear the feedback before showing the next question
+            showQuestion(questions[currentCategory][currentQuestionIndex]);
+            startTimer();
+        } else {
+            // End of the quiz for the selected category
+            showResults();
+        }
+    }, 1000);
 };
+
 
 // Show the final results
 const showResults = () => {
@@ -95,6 +99,8 @@ const showResults = () => {
 };
 
 // Timer function
+
+
 const startTimer = () => {
   let timeLeft = 10; // Set the time limit for each question (in seconds)
   const timerContainer = document.createElement("div");
@@ -111,18 +117,22 @@ const startTimer = () => {
       timerContainer.style.background = `conic-gradient(#007bff ${percentage}%, #f0f0f0 ${percentage}% 100%)`;
   };
 
-  const timer = setInterval(() => {
+  const timerTick = () => {
       timeLeft--;
 
       if (timeLeft < 0) {
-          clearTimeout(timer);
+          clearInterval(timerInterval); // Stop the timer
           selectAnswer(null, questions[currentCategory][currentQuestionIndex].answer); // Treat as a wrong answer when time runs out
       } else {
           updateTimer();
       }
-  }, 1000);
+  };
 
+  // Initial timer update
   updateTimer();
+
+  // Start the timer interval and store the interval ID
+  timerInterval = setInterval(timerTick, 1000);
 };
 
 
@@ -155,4 +165,3 @@ document.getElementById("javascript-quiz-header").addEventListener("click", () =
 
 // Fetch the questions on page load
 fetchQuestions();
-
