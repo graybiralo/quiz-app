@@ -1,0 +1,56 @@
+{
+  "css": [
+    {
+      "question": "What does CSS stand for?",
+      "options": ["Cascading Style Sheets", "Creative Style Sheets", "Computer Style Sheets"],
+      "answer": "Cascading Style Sheets"
+    },
+    {
+      "question": "How do you include CSS in an HTML file?",
+      "options": ["<link>", "<style>", "<css>"],
+      "answer": "<link>"
+    },
+    {
+      "question": "What is the box model in CSS?",
+      "options": ["A model used for creating boxes in CSS", "A model that defines how elements are rendered", "A model used for creating 3D elements"],
+      "answer": "A model that defines how elements are rendered"
+    },
+    {
+      "question": "How do you center an element horizontally in CSS?",
+      "options": ["margin: 0 auto;", "position: center;", "text-align: center;"],
+      "answer": "margin: 0 auto;"
+    },
+    {
+      "question": "What is a media query in CSS?",
+      "options": ["A query language for databases", "A technique to apply styles based on device characteristics", "A query to retrieve data from APIs"],
+      "answer": "A technique to apply styles based on device characteristics"
+    }
+  ],
+  "javascript": [
+    {
+      "question": "What is JavaScript?",
+      "options": ["A markup language", "A programming language", "A database management system"],
+      "answer": "A programming language"
+    },
+    {
+      "question": "How do you declare a variable in JavaScript?",
+      "options": ["variable", "var", "vrb"],
+      "answer": "var"
+    },
+    {
+      "question": "What is the DOM in JavaScript?",
+      "options": ["Document Object Model", "Data Oriented Model", "Document Order Model"],
+      "answer": "Document Object Model"
+    },
+    {
+      "question": "How do you create a function in JavaScript?",
+      "options": ["create function myFunction()", "function = myFunction()", "function myFunction()"],
+      "answer": "function myFunction()"
+    },
+    {
+      "question": "What is an event in JavaScript?",
+      "options": ["A calendar event", "A function in JavaScript", "An action triggered by user interaction"],
+      "answer": "An action triggered by user interaction"
+    }
+  ]
+}
