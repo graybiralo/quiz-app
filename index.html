@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Interactive Quiz Game</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div class="header-container">
+      <h1>Interactive Quiz Game</h1>
+      <div class="quiz-headers">
+        <div class="quiz-header" id="css-quiz-header">CSS Quiz</div>
+        <div class="quiz-header" id="javascript-quiz-header">
+          JavaScript Quiz
+        </div>
+      </div>
+    </div>
+
+    <div class="quiz-container">
+      <div id="question-container"></div>
+      <div id="choices-container"></div>
+      <!-- Submit button initially hidden -->
+      <button id="submit-btn" onclick="selectAnswer()" style="display: none">
+        Submit
+      </button>
+      <div id="feedback-container"></div>
+      <div id="score-container"></div>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
