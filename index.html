@@ -12,19 +12,26 @@
         <div class="quiz-header" id="javascript-quiz-header">
           JavaScript Quiz
         </div>
+        <div class="quiz-header" id="html-quiz-header">HTML Quiz</div>
+        <div class="quiz-header" id="general-quiz-header">
+          General Knowledge Quiz
+        </div>
       </div>
     </div>
-
-    <div class="quiz-container">
-      <div id="question-container"></div>
+    <div class="quiz-container" id="quiz-container">
+      <div class="question-containers" id="question-container">
+        Choose Your Excellence
+      </div>
       <div id="choices-container"></div>
-      <!-- Submit button initially hidden -->
-      <button id="submit-btn" onclick="selectAnswer()" style="display: none">
-        Submit
-      </button>
+
+      <button id="submit-btn" onclick="submitAnswer()">Submit</button>
+
       <div id="feedback-container"></div>
+      <div class="times" id="timer-container">
+        Time Left: <span id="timer">15</span> seconds
+      </div>
       <div id="score-container"></div>
     </div>
-    <script src="script.js"></script>
+    <script src="./script.js"></script>
   </body>
 </html>

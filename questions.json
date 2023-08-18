@@ -6,25 +6,21 @@
       "answer": "Cascading Style Sheets"
     },
     {
-      "question": "How do you include CSS in an HTML file?",
-      "options": ["<link>", "<style>", "<css>"],
-      "answer": "<link>"
+      "question": "Which HTML attribute is used to define inline styles?",
+      "options": ["Style", "Class", "font"],
+      "answer": "Style"
     },
     {
-      "question": "What is the box model in CSS?",
-      "options": ["A model used for creating boxes in CSS", "A model that defines how elements are rendered", "A model used for creating 3D elements"],
-      "answer": "A model that defines how elements are rendered"
+      "question": "Which property is used to change the text color in CSS?",
+      "options": ["font-color", "text-color", "color"],
+      "answer": "color"
     },
     {
-      "question": "How do you center an element horizontally in CSS?",
-      "options": ["margin: 0 auto;", "position: center;", "text-align: center;"],
-      "answer": "margin: 0 auto;"
-    },
-    {
-      "question": "What is a media query in CSS?",
-      "options": ["A query language for databases", "A technique to apply styles based on device characteristics", "A query to retrieve data from APIs"],
-      "answer": "A technique to apply styles based on device characteristics"
+      "question": "What is the purpose of the 'z-index' property in CSS?",
+      "options": ["To set the font size", "To control the order of stacking elements", "To change the background color"],
+      "answer": "To control the order of stacking elements"
     }
+    
   ],
   "javascript": [
     {
@@ -33,24 +29,66 @@
       "answer": "A programming language"
     },
     {
-      "question": "How do you declare a variable in JavaScript?",
-      "options": ["variable", "var", "vrb"],
+      "question": "What is JavaScript used for?",
+      "options": ["Styling web pages", "Creating interactive web elements", "Managing databases"],
+      "answer": "Creating interactive web elements"
+    },
+    {
+      "question": "Which keyword is used to declare a variable in JavaScript?",
+      "options": ["variable", "var", "let"],
       "answer": "var"
     },
     {
       "question": "What is the DOM in JavaScript?",
-      "options": ["Document Object Model", "Data Oriented Model", "Document Order Model"],
+      "options": ["Data Oriented Model", "Document Order Model", "Document Object Model"],
       "answer": "Document Object Model"
-    },
-    {
-      "question": "How do you create a function in JavaScript?",
-      "options": ["create function myFunction()", "function = myFunction()", "function myFunction()"],
-      "answer": "function myFunction()"
-    },
-    {
-      "question": "What is an event in JavaScript?",
-      "options": ["A calendar event", "A function in JavaScript", "An action triggered by user interaction"],
-      "answer": "An action triggered by user interaction"
     }
+    
+  ],
+  "html": [
+    {
+      "question": "What does HTML stand for?",
+      "options": ["Hypertext Markup Language", "Hyperlink and Text Markup Language", "High-Level Text Markup Language"],
+      "answer": "Hypertext Markup Language"
+    },
+    {
+      "question": "What does HTML stand for?",
+      "options": ["Hyper Text Markup Language", "Hyperlink and Text Markup Language", "High-Level Text Markup Language"],
+      "answer": "Hyper Text Markup Language"
+    },
+    {
+      "question": "Which HTML tag is used to create a hyperlink?",
+      "options": ["<ahref>", "<link>", "<a>"],
+      "answer": "<a>"
+    },
+    {
+      "question": "What is the purpose of the 'alt' attribute in an <img> tag?",
+      "options": ["To set the image source", "To specify the image width", "To provide alternative text for the image"],
+      "answer": "To provide alternative text for the image"
+    }
+    
+  ],
+  "general": [
+    {
+      "question": "What is the capital of France?",
+      "options": ["Berlin", "London", "Paris"],
+      "answer": "Paris"
+    },
+    {
+      "question": "What is the capital of Japan?",
+      "options": ["Beijing", "Tokyo", "Seoul"],
+      "answer": "Tokyo"
+    },
+    {
+      "question": "Which planet is known as the 'Red Planet'?",
+      "options": ["Venus", "Mars", "Jupiter"],
+      "answer": "Mars"
+    },
+    {
+      "question": "Who painted the Mona Lisa?",
+      "options": ["Vincent van Gogh", "Leonardo da Vinci", "Pablo Picasso"],
+      "answer": "Leonardo da Vinci"
+    }
+    
   ]
 }
