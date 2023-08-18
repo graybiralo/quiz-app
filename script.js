@@ -1,167 +1,242 @@
+// Constants for DOM elements
 const questionContainer = document.getElementById("question-container");
 const choicesContainer = document.getElementById("choices-container");
+const submitButton = document.getElementById("submit-btn");
 const feedbackContainer = document.getElementById("feedback-container");
 const scoreContainer = document.getElementById("score-container");
-const submitBtn = document.getElementById("submit-btn");
+const quizHeaders = document.querySelectorAll('.quiz-header');
+const timerContainer = document.getElementById("timer-container");
+const timerElement = document.getElementById("timer");
 
+// varaibles
+let questionData;
+let currentCategory = 'css';
 let currentQuestionIndex = 0;
+let currentQuestion;
 let score = 0;
+let bestScores = {};
+let selectedChoiceIndex;
 let timer;
-let questions = null;
-let currentCategory = "";
+let timeLeft = 15; //in seconds
 
-// Fetch the JSON data containing the questions
-const fetchQuestions = async () => {
-    try {
-        const response = await fetch("questions.json");
-        if (!response.ok) {
-            throw new Error("Failed to fetch questions.");
-        }
-        questions = await response.json();
-    } catch (error) {
-        console.error(error);
-    }
-};
+// Fetch questions and initialize the quiz
+async function initializeQuiz() {
+  questionData = await fetchQuestions();
+  quizHeaders.forEach(header => {
+    header.addEventListener('click', () => {
+      currentCategory = header.id.replace('-quiz-header', '');
+      startQuiz();
+    });
+  });
+  
+}
+
+// Shuffle an array
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
+
+// Display question and choices
+function displayQuestion(question) {
+  // Clear any previous content
+  questionContainer.textContent = "";
+  choicesContainer.textContent = "";
+
+  // Display the question
+  const questionText = document.createElement('div');
+  questionText.classList.add('question-containers');
+  questionText.textContent = question.question;
+  questionContainer.appendChild(questionText);
+
+  // Display choices with event listeners
+  question.options = shuffleArray(question.options);
+  question.options.forEach((option, index) => {
+    const choice = document.createElement('div');
+    choice.classList.add('choice');
+    choice.textContent = option;
+    choice.addEventListener('click', () => handleChoiceClick(index));
+    choicesContainer.appendChild(choice);
+  });
+
+  choicesContainer.style.display = "block";
+  submitButton.style.display = "none";
+  feedbackContainer.style.display = "none";
+
+  // Start the timer for each question
+  startTimer();
+}
+
+// Start the timer
+function startTimer() {
+  timeLeft = 15; 
+  updateTimer();
+  timerContainer.style.display = "block";
+  timer = setInterval(updateTimer, 1000); // Update every second
+}
+
+// Update the timer display
+function updateTimer() {
+  if (timeLeft > 0) {
+    timerElement.textContent = timeLeft;
+    timeLeft--;
+  } else {
+    clearInterval(timer);
+    timerContainer.style.display = "none";
+    handleTimeout();
+  }
+}
+
+// Handle timeout
+function handleTimeout() {
+  feedbackContainer.style.display = "block";
+  feedbackContainer.textContent = "Time's up!";
+  feedbackContainer.style.color = "red";
+  setTimeout(startNextQuestion, 1000); // Delay before moving to the next question
+}
 
 
-// start the quiz for the selected category
-const loadQuiz = (category) => {
-  const selectedQuestions = questions[category];
-  currentCategory = category;
-  startQuiz(selectedQuestions);
-  startTimer(); // Start the timer when the quiz starts
-};
+// Handle choice click
+function handleChoiceClick(choiceIndex) {
+  // Remove the "selected" class from all choices
+  const choices = choicesContainer.querySelectorAll('.choice');
+  choices.forEach(choice => choice.classList.remove('selected'));
 
+  
+  const clickedChoice = choices[choiceIndex];
+  clickedChoice.classList.add('selected');
+
+  selectedChoiceIndex = choiceIndex;
+  submitButton.style.display = "block"; 
+  feedbackContainer.textContent = ""; 
+}
 
 // Start the quiz
-const startQuiz = (questions) => {
-    // Randomly shuffle the questions
-    shuffleArray(questions);
-    currentQuestionIndex = 0;
-    score = 0;
-    showQuestion(questions[currentQuestionIndex]);
-};
-
-// Show a question and its choices
-const showQuestion = (question) => {
-    questionContainer.innerHTML = question.question;
-    choicesContainer.innerHTML = "";
-
-    question.options.forEach((choice) => {
-        const choiceElement = document.createElement("div");
-        choiceElement.className = "choice";
-        choiceElement.textContent = choice;
-        choiceElement.addEventListener("click", () => selectAnswer(choice, question.answer));
-        choicesContainer.appendChild(choiceElement);
-    });
-};
+function startQuiz() {
+  currentQuestionIndex = 0;
+  score = 0;
+  feedbackContainer.textContent = "";
+  scoreContainer.textContent = "";
+  questionData[currentCategory] = shuffleArray(questionData[currentCategory]);
+  startNextQuestion();
+}
 
 
 // Select an answer
-let timerInterval; // Declare the timerInterval outside the function to track the active timer
+function selectOption(selectedAnswer, optionIndex) {
+  const correctAnswer = currentQuestion.answer;
+  if (selectedAnswer === correctAnswer) {
+    score++;
+  }
+  submitButton.style.display = "block";
+}
 
-const selectAnswer = (selectedChoice, correctAnswer) => {
-    clearTimeout(timerInterval); // Clear the active timer
 
-    if (selectedChoice === correctAnswer) {
-        score++;
-        feedbackContainer.textContent = "Correct!";
-        feedbackContainer.style.color = "green";
+
+// submit button click
+function submitAnswer() {
+  if (selectedChoiceIndex !== null) {
+    const correctAnswerIndex = currentQuestion.options.indexOf(currentQuestion.answer);
+
+    if (selectedChoiceIndex === correctAnswerIndex) {
+      score += 1;
+      feedbackContainer.textContent = "Correct!";
     } else {
-        feedbackContainer.textContent = "Wrong!";
-        feedbackContainer.style.color = "red";
+      feedbackContainer.textContent = "Incorrect!";
     }
 
-    // Move to the next question after a brief delay
-    setTimeout(() => {
-        currentQuestionIndex++;
-        if (currentQuestionIndex < questions[currentCategory].length) {
-            feedbackContainer.textContent = ""; // Clear the feedback before showing the next question
-            showQuestion(questions[currentCategory][currentQuestionIndex]);
-            startTimer();
-        } else {
-            // End of the quiz for the selected category
-            showResults();
-        }
-    }, 1000);
-};
+    scoreContainer.textContent = `Score: ${score}`;
+    submitButton.style.display = "none";
 
-
-// Show the final results
-const showResults = () => {
-  questionContainer.innerHTML = "";
-  choicesContainer.innerHTML = "";
-  feedbackContainer.textContent = "";
-  scoreContainer.textContent = `Your Score: ${score}/${questions[currentCategory].length}`;
-
-  // Disable the submit button after the quiz is completed
-  submitBtn.disabled = true;
-};
-
-// Timer function
-
-
-const startTimer = () => {
-  let timeLeft = 10; // Set the time limit for each question (in seconds)
-  const timerContainer = document.createElement("div");
-  timerContainer.className = "timer-container";
-  questionContainer.appendChild(timerContainer);
-
-  const timerNumber = document.createElement("div");
-  timerNumber.className = "timer-number";
-  timerContainer.appendChild(timerNumber);
-
-  const updateTimer = () => {
-      timerNumber.textContent = timeLeft;
-      const percentage = ((10 - timeLeft) / 10) * 100;
-      timerContainer.style.background = `conic-gradient(#007bff ${percentage}%, #f0f0f0 ${percentage}% 100%)`;
-  };
-
-  const timerTick = () => {
-      timeLeft--;
-
-      if (timeLeft < 0) {
-          clearInterval(timerInterval); // Stop the timer
-          selectAnswer(null, questions[currentCategory][currentQuestionIndex].answer); // Treat as a wrong answer when time runs out
-      } else {
-          updateTimer();
-      }
-  };
-
-  // Initial timer update
-  updateTimer();
-
-  // Start the timer interval and store the interval ID
-  timerInterval = setInterval(timerTick, 1000);
-};
-
-
-// Helper function to shuffle the array
-const shuffleArray = (array) => {
-  for (let i = array.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]];
+    // Show feedback and then move to the next question
+    displayFeedbackAndMoveToNextQuestion();
   }
-};
+}
 
-// Event listeners for quiz headers
-document.getElementById("css-quiz-header").addEventListener("click", () => {
-  questionContainer.innerHTML = ""; // Clear the question container
-  choicesContainer.innerHTML = ""; // Clear the choices container
-  feedbackContainer.textContent = ""; // Clear the feedback container
-  scoreContainer.textContent = ""; // Clear the score container
-  submitBtn.style.display = "block"; // Show the Submit button
-  loadQuiz("css"); // Start the CSS quiz
-});
+function displayFeedbackAndMoveToNextQuestion() {
+  feedbackContainer.style.display = "block";
+  setTimeout(() => {
+    feedbackContainer.style.display = "none";
+    startNextQuestion();
+  }, 1000);
+}
 
-document.getElementById("javascript-quiz-header").addEventListener("click", () => {
-  questionContainer.innerHTML = ""; // Clear the question container
-  choicesContainer.innerHTML = ""; // Clear the choices container
-  feedbackContainer.textContent = ""; // Clear the feedback container
-  scoreContainer.textContent = ""; // Clear the score container
-  submitBtn.style.display = "block"; // Show the Submit button
-  loadQuiz("javascript"); // Start the JavaScript quiz
-});
 
-// Fetch the questions on page load
-fetchQuestions();
+// Move to the next question
+function startNextQuestion() {
+  clearInterval(timer);
+  
+  if (currentQuestionIndex <= (questionData[currentCategory].length - 1)) {
+    currentQuestion = questionData[currentCategory][currentQuestionIndex];
+    currentQuestionIndex++;
+    displayQuestion(currentQuestion);
+  } else {
+    displayFinalScore();
+  }
+}
+
+
+// Display final score
+function displayFinalScore() {
+  questionContainer.textContent = "Quiz Completed!";
+  choicesContainer.innerHTML = "";
+  feedbackContainer.textContent = `Your final score: ${score}`;
+  saveHighScore(score);
+  displayHighScore();
+}
+
+// Save high score
+function saveHighScore(score) {
+  const highScores = JSON.parse(localStorage.getItem('highScores')) || [];
+  highScores.push(score);
+  highScores.sort((a, b) => b - a); // Sort in descending order
+  localStorage.setItem('highScores', JSON.stringify(highScores));
+}
+
+// Display high scores
+
+function displayHighScore() {
+  scoreContainer.innerHTML = "<h2>High Score</h2>";
+  const ul = document.createElement('ul');
+
+  if (!bestScores[currentCategory] || score > bestScores[currentCategory]) {
+    bestScores[currentCategory] = score; 
+  }
+
+  const li = document.createElement('li');
+  li.textContent = `Your score: ${score}, Best high score for ${
+    currentCategory.toUpperCase()
+  }: ${bestScores[currentCategory] || 0}`;
+  ul.appendChild(li);
+
+  scoreContainer.appendChild(ul);
+
+}
+
+
+// Fetch questions from JSON file
+async function fetchQuestions() {
+  try {
+    const response = await fetch('questions.json');
+    const data = await response.json();
+
+    // Shuffle questions within each category
+    for (const category in data) {
+      if (data.hasOwnProperty(category)) {
+        data[category] = shuffleArray(data[category]);
+      }
+    }
+
+    return data;
+  } catch (error) {
+    console.error('Error fetching questions:', error);
+    return null;
+  }
+}
+
+
+// Initialize the quiz when the page loads
+window.addEventListener('load', initializeQuiz);
