@@ -144,8 +144,10 @@ function submitAnswer() {
     if (selectedChoiceIndex === correctAnswerIndex) {
       score += 1;
       feedbackContainer.textContent = "Correct!";
+      feedbackContainer.style.color = "green"
     } else {
       feedbackContainer.textContent = "Incorrect!";
+      feedbackContainer.style.color = "red"
     }
 
     scoreContainer.textContent = `Score: ${score}`;
@@ -186,6 +188,7 @@ function displayFinalScore() {
   feedbackContainer.textContent = `Your final score: ${score}`;
   saveHighScore(score);
   displayHighScore();
+  timerContainer.style.display = "none";
 }
 
 // Save high score
@@ -213,7 +216,7 @@ function displayHighScore() {
   ul.appendChild(li);
 
   scoreContainer.appendChild(ul);
-
+  
 }
 
 

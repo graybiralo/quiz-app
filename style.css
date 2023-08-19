@@ -40,7 +40,7 @@ body {
   max-width: 600px;
   margin: 20px auto;
   padding: 20px;
-  border: 1px solid #ccc;
+  border: 2px solid #ccc;
   border-radius: 10px;
   background-color: #fff;
   box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
@@ -74,16 +74,15 @@ body {
 }
 
 .choice:hover {
-  background-color: #f2f2f2;
+  background-color: #a28686;
 }
 
 .choice.selected {
-  background-color: #3498db;
+  background-color: #801226;
   color: #fff;
 }
 
 #feedback-container {
-  color: #27ae60;
   font-weight: bold;
   margin-top: 15px;
 }
@@ -93,7 +92,7 @@ body {
   font-weight: bold;
   text-align: center;
   margin-top: 20px;
-  color: #e67e22;
+  color: #4b152663;
 }
 
 #submit-btn {
@@ -101,7 +100,7 @@ body {
   margin-top: 20px;
   padding: 12px 24px;
   font-size: 16px;
-  background-color: #e67e22;
+  background-color: #4c4c63;
   color: #fff;
   border: none;
   border-radius: 5px;

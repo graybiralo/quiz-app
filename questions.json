@@ -52,9 +52,9 @@
       "answer": "Hypertext Markup Language"
     },
     {
-      "question": "What does HTML stand for?",
-      "options": ["Hyper Text Markup Language", "Hyperlink and Text Markup Language", "High-Level Text Markup Language"],
-      "answer": "Hyper Text Markup Language"
+      "question": "What are the types of lists available in HTML?",
+      "options": ["Ordered, Unordered List", "Bullet, Numbered List", "Named, Unamed List"],
+      "answer": "Ordered, Unordered List"
     },
     {
       "question": "Which HTML tag is used to create a hyperlink?",
