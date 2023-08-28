@@ -202,7 +202,7 @@ function saveHighScore(score) {
 // Display high scores
 
 function displayHighScore() {
-  scoreContainer.innerHTML = "<h2>High Score</h2>";
+  scoreContainer.innerHTML = "<h2>Thank You</h2>";
   const ul = document.createElement('ul');
 
   if (!bestScores[currentCategory] || score > bestScores[currentCategory]) {
